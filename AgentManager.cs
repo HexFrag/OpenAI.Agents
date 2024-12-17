@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Text.Json;
+using Microsoft.Extensions.Configuration;
 
 namespace OpenAIChatLibrary
 {
@@ -19,10 +20,15 @@ namespace OpenAIChatLibrary
     {
         private readonly Dictionary<string, Agent> _agents = new(StringComparer.OrdinalIgnoreCase);
         private readonly IOpenAIClient _client;
+        private readonly IConfiguration _config;
 
-        public AgentManager(IOpenAIClient client)
+
+        private readonly int MaxRetries;
+        private int retryCount = 0;
+        public AgentManager(IOpenAIClient client, IConfiguration config)
         {
             _client = client;
+            _config = config;
         }
 
         public Agent CreateAgent(string name, string model, string systemPrompt, string? overrideApiKey = null)
@@ -74,11 +80,18 @@ namespace OpenAIChatLibrary
                 {
                     PropertyNameCaseInsensitive = true
                 });
+                retryCount = 0;
                 return obj;
             }
             catch
             {
-                return null;
+                retryCount++;
+                if (retryCount > MaxRetries)
+                {                    
+                    throw new InvalidOperationException($"Failed to parse JSON response. {userMessage}");
+                }
+                var msg = $"Failed to parse JSON response properly. Please stick to the required JSON object as outlined in the system prompt. Original user message: {userMessage}";
+                return await SendMessageAndParseJsonAsync<T>(agentName, msg);                
             }
         }
 

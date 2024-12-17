@@ -8,6 +8,7 @@ namespace OpenAIChatLibrary
         // Optionally allow a separate API base URL, defaults to official OpenAI endpoint
         public string ApiUrl { get; init; } = "https://api.openai.com/v1/chat/completions";
         public TimeSpan HttpTimeout { get; init; } = TimeSpan.FromSeconds(600);
+        public int SelfRepairLimit { get; init; } = 3;
 
         public OpenAIClientSettings(string? defaultApiKey)
         {

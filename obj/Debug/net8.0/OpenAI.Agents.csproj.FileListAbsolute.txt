@@ -10,3 +10,4 @@ C:\Users\Owner\source\repos\OpenAI.Agents\OpenAI.Agents\obj\Debug\net8.0\OpenAI.
 C:\Users\Owner\source\repos\OpenAI.Agents\OpenAI.Agents\obj\Debug\net8.0\refint\OpenAI.Agents.dll
 C:\Users\Owner\source\repos\OpenAI.Agents\OpenAI.Agents\obj\Debug\net8.0\OpenAI.Agents.pdb
 C:\Users\Owner\source\repos\OpenAI.Agents\OpenAI.Agents\obj\Debug\net8.0\ref\OpenAI.Agents.dll
+C:\Users\Owner\source\repos\OpenAI.Agents\OpenAI.Agents\obj\Debug\net8.0\OpenAI.Agents.sourcelink.json
