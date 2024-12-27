@@ -1,6 +1,6 @@
 # OpenAI.Agents
 
-This project provides a straightforward way to define and manage role-based AI agents (such as a Project Manager, Developer, Reviewer, and QA engineer) using OpenAI’s Chat API (or compatible APIs). Each agent has its own "system prompt" that establishes its role. The solution is built with .NET 8, making use of `Microsoft.Extensions.DependencyInjection`, `Microsoft.Extensions.Configuration`, `TiktokenSharp` (for token counting), and `HttpClient` to communicate with OpenAI.
+This project provides a straightforward way to define and manage role-based AI agents (such as a Project Manager, Developer, Reviewer, and QA engineer) using OpenAI’s Chat API (or compatible APIs). Each agent has its own "system prompt" that establishes its role and can even have its own API key. The solution is built with .NET 8, making use of `Microsoft.Extensions.DependencyInjection`, `Microsoft.Extensions.Configuration`, `TiktokenSharp` (for token counting), and `HttpClient` to communicate with OpenAI.
 
 ## Requirements
 
