@@ -11,6 +11,7 @@ namespace OpenAIChatLibrary
     {
         Agent CreateAgent(string name, string model, string systemPrompt, string? overrideApiKey = null);
         Agent GetAgent(string name);
+        void UpdateSystemPromptWithTimestamp(string agentName, string newSystemPrompt);
         IReadOnlyList<Agent> ListAgents();
         Task<string> SendMessageAsync(string agentName, string userMessage);
         Task<T?> SendMessageAndParseJsonAsync<T>(string agentName, string userMessage) where T : class;
@@ -106,6 +107,13 @@ namespace OpenAIChatLibrary
                 return inner.Trim();
             }
             return input;
+        }
+
+        public void UpdateSystemPromptWithTimestamp(string agentName, string newSystemPrompt)
+        {
+            newSystemPrompt = newSystemPrompt.Replace("<%TIMESTAMP%>", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+            var agent = GetAgent(agentName);
+            agent.UpdateSystemPrompt(newSystemPrompt, agent.Model);
         }
     }
 }

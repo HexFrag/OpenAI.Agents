@@ -13,10 +13,12 @@
 x64/
 [Bb]in/
 [Oo]bj/
-
+*.dll
 # MSTest test Results
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
+*/bin/*
+*/obj/*
 
 *_i.c
 *_p.c
@@ -139,3 +141,5 @@ _NCrunch*
 appsettings.json
 */appsettings.json
 **/appsettings.json
+*.dll
+*.dll

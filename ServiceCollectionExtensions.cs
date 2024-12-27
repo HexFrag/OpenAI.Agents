@@ -24,7 +24,7 @@ namespace OpenAIChatLibrary
             });
 
             services.AddHttpClient<IOpenAIClient, OpenAIClient>();
-            services.AddTransient<IAgentManager, AgentManager>();
+            services.AddSingleton<IAgentManager, AgentManager>();
 
             return services;
         }
