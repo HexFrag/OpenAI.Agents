@@ -26,40 +26,38 @@ This project provides a straightforward way to define and manage role-based AI a
 
 ## Project Structure
 
-    - OpenAI.Agents (class library):
-        - Includes Agent.cs, AgentManager.cs, OpenAIClient.cs, OpenAIClientSettings.cs, ServiceCollectionExtensions.cs, and supporting classes.
-        - Manages the creation of agents, stores conversation history, and dispatches requests to OpenAI.
+- OpenAI.Agents (class library):
+    - Includes Agent.cs, AgentManager.cs, OpenAIClient.cs, OpenAIClientSettings.cs, ServiceCollectionExtensions.cs, and supporting classes.
+    - Manages the creation of agents, stores conversation history, and dispatches requests to OpenAI.
 
-    - AgentTestProject (console application):
-        - Program.cs demonstrates using the library by creating multiple agents (Project Manager, Developer, Reviewer, QA) and sending messages back and forth.
-        - Illustrates a workflow in which each agent assumes a distinct role.
+- AgentTestProject (console application):
+    - Program.cs demonstrates using the library by creating multiple agents (Project Manager, Developer, Reviewer, QA) and sending messages back and forth.
+    - Illustrates a workflow in which each agent assumes a distinct role.
 
 ## How It Works
 
-    - Dependency Injection
-        - Call AddOpenAIAgents() to register an IAgentManager and the underlying OpenAIClient.
-        - The OpenAIClient retrieves your API key from the configuration (IConfiguration) to authenticate.
+- Dependency Injection
+    - Call AddOpenAIAgents() to register an IAgentManager and the underlying OpenAIClient.
+    - The OpenAIClient retrieves your API key from the configuration (IConfiguration) to authenticate.
 
-    - Agent Creation
-        - Create named agents like so:
-
+- Agent Creation
+    - Create named agents like so:    
         `var manager = serviceProvider.GetRequiredService<IAgentManager>();`
-        `var myAgent = manager.CreateAgent("AgentName", "gpt-3.5-turbo", "System prompt for this agent");`
+        `var myAgent = manager.CreateAgent("AgentName", "gpt-4o", "System prompt for this agent");`    
+    - Each agent maintains its own system prompt and conversation history. The library automatically trims older messages if token limits are exceeded.
 
-        - Each agent maintains its own system prompt and conversation history. The library automatically trims older messages if token limits are exceeded.
+- Sending Messages
+    - Use manager.SendMessageAsync("AgentName", "Hello!") to pass a user message to an agent and receive a response.
+    - The conversation history updates automatically, and you get the completed text.
 
-    - Sending Messages
-        - Use manager.SendMessageAsync("AgentName", "Hello!") to pass a user message to an agent and receive a response.
-        - The conversation history updates automatically, and you get the completed text.
-
-    - Token Management
-        - The library leverages TiktokenSharp to gauge token usage. When the limit is approached, older conversation entries are discarded to remain within constraints.
+- Token Management
+    - The library leverages TiktokenSharp to gauge token usage. When the limit is approached, older conversation entries are discarded to remain within constraints.
 
 ## Example Usage
 
 Below is a shortened example from AgentTestProject/Program.cs:
 
-`
+```c#
 // Read appsettings.json
 var builder = new ConfigurationBuilder()
     .SetBasePath(Directory.GetCurrentDirectory())
@@ -76,10 +74,10 @@ var serviceProvider = services.BuildServiceProvider();
 var manager = serviceProvider.GetRequiredService<IAgentManager>();
 
 // Define agents
-var pm = manager.CreateAgent("ProjectManager", "gpt-3.5-turbo", "You are a project manager...");
-var dev = manager.CreateAgent("Developer", "gpt-3.5-turbo", "You are a software developer...");
-var reviewer = manager.CreateAgent("CodeReviewer", "gpt-3.5-turbo", "You are a code reviewer...");
-var qa = manager.CreateAgent("QA", "gpt-3.5-turbo", "You are a QA engineer...");
+var pm = manager.CreateAgent("ProjectManager", "gpt-4o", "You are a project manager...");
+var dev = manager.CreateAgent("Developer", "gpt-4o", "You are a software developer...");
+var reviewer = manager.CreateAgent("CodeReviewer", "gpt-4o", "You are a code reviewer...");
+var qa = manager.CreateAgent("QA", "gpt-4o", "You are a QA engineer...");
 
 // Example interaction
 var pmMessage = await manager.SendMessageAsync("ProjectManager", "Please define a small task.");
@@ -89,19 +87,19 @@ var devResponse = await manager.SendMessageAsync("Developer", $"Task from PM: {p
 Console.WriteLine($"Developer says: {devResponse}");
 
 // ...and so on for Reviewer and QA.
-`
+```
 
 ## Running the Example
 
-    1. Open a terminal in the AgentTestProject directory.
-    2. Run dotnet run.
-    3. Watch the console to see the Project Manager define a task, the Developer implement it, the Reviewer offer feedback, and the QA agent finalize it.
+1. Open a terminal in the AgentTestProject directory.
+2. Run dotnet run.
+3. Watch the console to see the Project Manager define a task, the Developer implement it, the Reviewer offer feedback, and the QA agent finalize it.
 
 ## Customization
 
-    - Model Choice: You can select "gpt-3.5-turbo", "gpt-4", or another model ID your account can access.
-    - System Prompts: Adjust each agent’s system prompt to match your use cases.
-    - API Key Overrides: Provide a custom API key to an individual agent through CreateAgent if desired.
+- Model Choice: You can select "gpt-3.5-turbo", "gpt-4", or another model ID your account can access.
+- System Prompts: Adjust each agent’s system prompt to match your use cases.
+- API Key Overrides: Provide a custom API key to an individual agent through CreateAgent if desired.
 
 ## Support the Project
 
