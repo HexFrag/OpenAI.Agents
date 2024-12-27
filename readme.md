@@ -20,6 +20,7 @@ This project provides a straightforward way to define and manage role-based AI a
        "ApiKey": "YOUR-OPENAI-KEY-HERE"
      }
    }
+   ```
 
 4. Run dotnet restore to restore the dependencies.
 
